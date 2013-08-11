@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/BarSpeak.iml" filepath="$PROJECT_DIR$/BarSpeak.iml" />
+      <module fileurl="file://$PROJECT_DIR$/BarSpeak/BarSpeak-BarSpeak.iml" filepath="$PROJECT_DIR$/BarSpeak/BarSpeak-BarSpeak.iml" />
+    </modules>
+  </component>
+</project>
+

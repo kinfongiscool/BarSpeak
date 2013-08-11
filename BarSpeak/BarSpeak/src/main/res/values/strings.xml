@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">BarSpeak</string>
+    <string name="dummy_button">Dummy Button</string>
+    <string name="fullscreen_content">BarSpeak</string>
+    <string name="edit_text">Enter text here</string>
+
+</resources>
