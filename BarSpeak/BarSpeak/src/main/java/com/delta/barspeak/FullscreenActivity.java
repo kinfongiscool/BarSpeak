@@ -1,6 +1,8 @@
 package com.delta.barspeak;
 
 import com.delta.barspeak.util.SystemUiHider;
+//import com.gtranslate.Audio;
+//import com.gtranslate.Language;
 
 import android.annotation.TargetApi;
 import android.app.Activity;
@@ -14,6 +16,9 @@ import android.view.ViewTreeObserver;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import java.io.IOException;
+import java.io.InputStream;
+
 /**
  * An example full-screen activity that shows and hides the system UI (i.e.
  * status bar and navigation/system bar) with user interaction.
@@ -24,17 +29,12 @@ public class FullscreenActivity extends Activity {
 
     private TextView mFullscreen;
     private EditText mEditText;
-    private boolean mClickedYet = false;
-
-    private View activityRootView;
-
-
 
     /**
      * Whether or not the system UI should be auto-hidden after
      * {@link #AUTO_HIDE_DELAY_MILLIS} milliseconds.
      */
-    private static boolean AUTO_HIDE = true;
+    private static boolean AUTO_HIDE = false;
 
     /**
      * If {@link #AUTO_HIDE} is set, the number of milliseconds to wait after
@@ -62,12 +62,19 @@ public class FullscreenActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+//        Audio audio = Audio.getInstance();
+//        InputStream sound  = null;
+//        try {
+//            sound = audio.getAudio("I am a bus", Language.ENGLISH);
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//        audio.play(sound);
+
         setContentView(R.layout.activity_fullscreen);
 
         mFullscreen = (TextView) findViewById(R.id.fullscreen_content);
         mEditText = (EditText) findViewById(R.id.edit_text);
-
-
 
         final View controlsView = findViewById(R.id.fullscreen_content_controls);
         final View contentView = findViewById(R.id.fullscreen_content);
