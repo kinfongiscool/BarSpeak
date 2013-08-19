@@ -6,18 +6,13 @@ import com.delta.barspeak.util.SystemUiHider;
 
 import android.annotation.TargetApi;
 import android.app.Activity;
-import android.graphics.Rect;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Handler;
-import android.view.MotionEvent;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
-import android.view.ViewTreeObserver;
 import android.widget.EditText;
 import android.widget.TextView;
-
-import java.io.IOException;
-import java.io.InputStream;
 
 /**
  * An example full-screen activity that shows and hides the system UI (i.e.
@@ -25,28 +20,10 @@ import java.io.InputStream;
  *
  * @see SystemUiHider
  */
-public class FullscreenActivity extends Activity {
+public class FullscreenActivity extends Activity implements BarSpeakInterface {
 
     private TextView mFullscreen;
     private EditText mEditText;
-
-    /**
-     * Whether or not the system UI should be auto-hidden after
-     * {@link #AUTO_HIDE_DELAY_MILLIS} milliseconds.
-     */
-    private static boolean AUTO_HIDE = false;
-
-    /**
-     * If {@link #AUTO_HIDE} is set, the number of milliseconds to wait after
-     * user interaction before hiding the system UI.
-     */
-    private static final int AUTO_HIDE_DELAY_MILLIS = 3000;
-
-    /**
-     * If set, will toggle the system UI visibility upon interaction. Otherwise,
-     * will show the system UI visibility upon interaction.
-     */
-    private static final boolean TOGGLE_ON_CLICK = true;
 
     /**
      * The flags to pass to {@link SystemUiHider#getInstance}.
@@ -59,23 +36,23 @@ public class FullscreenActivity extends Activity {
     private SystemUiHider mSystemUiHider;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-//        Audio audio = Audio.getInstance();
-//        InputStream sound  = null;
-//        try {
-//            sound = audio.getAudio("I am a bus", Language.ENGLISH);
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-//        audio.play(sound);
 
         setContentView(R.layout.activity_fullscreen);
 
-        mFullscreen = (TextView) findViewById(R.id.fullscreen_content);
-        mEditText = (EditText) findViewById(R.id.edit_text);
+        setupUi();
+    }
 
+    public void setupUi() {
+        mFullscreen = (TextView) findViewById(R.id.fullscreen_content);
+
+        addSystemUiHider();
+
+        addEditTextWithOnTextChanged();
+    }
+
+    public void addSystemUiHider() {
         final View controlsView = findViewById(R.id.fullscreen_content_controls);
         final View contentView = findViewById(R.id.fullscreen_content);
 
@@ -92,7 +69,6 @@ public class FullscreenActivity extends Activity {
                     @Override
                     @TargetApi(Build.VERSION_CODES.HONEYCOMB_MR2)
                     public void onVisibilityChange(boolean visible) {
-                        mFullscreen.setText(mEditText.getText());
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR2) {
                             // If the ViewPropertyAnimator API is available
                             // (Honeycomb MR2 and later), use it to animate the
@@ -115,10 +91,6 @@ public class FullscreenActivity extends Activity {
                             controlsView.setVisibility(visible ? View.VISIBLE : View.GONE);
                         }
 
-                        if (visible && AUTO_HIDE) {
-                            // Schedule a hide().
-                            delayedHide(AUTO_HIDE_DELAY_MILLIS);
-                        }
                     }
                 });
 
@@ -126,60 +98,34 @@ public class FullscreenActivity extends Activity {
         contentView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (TOGGLE_ON_CLICK) {
-                    mSystemUiHider.toggle();
-                } else {
-                    mSystemUiHider.show();
-                }
+                mSystemUiHider.toggle();
             }
         });
-
-        // Upon interacting with UI controls, delay any scheduled hide()
-        // operations to prevent the jarring behavior of controls going away
-        // while interacting with the UI.
-        findViewById(R.id.edit_text).setOnTouchListener(mDelayHideTouchListener);
     }
-
-    @Override
-    protected void onPostCreate(Bundle savedInstanceState) {
-        super.onPostCreate(savedInstanceState);
-
-        // Trigger the initial hide() shortly after the activity has been
-        // created, to briefly hint to the user that UI controls
-        // are available.
-        delayedHide(100);
-    }
-
 
     /**
-     * Touch listener to use for in-layout UI controls to delay hiding the
-     * system UI. This is to prevent the jarring behavior of controls going away
-     * while interacting with activity UI.
+     * Adds an EditText view that updates fullscreen_content as keys are pressed.
      */
-    View.OnTouchListener mDelayHideTouchListener = new View.OnTouchListener() {
-        @Override
-        public boolean onTouch(View view, MotionEvent motionEvent) {
-            if (AUTO_HIDE) {
-                delayedHide(AUTO_HIDE_DELAY_MILLIS);
+    public void addEditTextWithOnTextChanged() {
+        mEditText = (EditText) findViewById(R.id.edit_text);
+
+        // As keys are pressed, update the text displayed.
+        mEditText.addTextChangedListener(new TextWatcher() {
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
             }
-            return false;
-        }
-    };
 
-    Handler mHideHandler = new Handler();
-    Runnable mHideRunnable = new Runnable() {
-        @Override
-        public void run() {
-            mSystemUiHider.hide();
-        }
-    };
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                mFullscreen.setText(s);
+            }
 
-    /**
-     * Schedules a call to hide() in [delay] milliseconds, canceling any
-     * previously scheduled calls.
-     */
-    private void delayedHide(int delayMillis) {
-        mHideHandler.removeCallbacks(mHideRunnable);
-        mHideHandler.postDelayed(mHideRunnable, delayMillis);
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
     }
 }

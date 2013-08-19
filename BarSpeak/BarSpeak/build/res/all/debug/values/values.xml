@@ -12,7 +12,7 @@
     <string name="app_name">BarSpeak</string>
     <string name="dummy_button">Dummy Button</string>
     <string name="edit_text">Enter text here</string>
-    <string name="fullscreen_content">BarSpeak</string>
+    <string name="fullscreen_content"></string>
     <!-- From: file:/C:/Development/DeltaProgram/BarSpeak/BarSpeak/BarSpeak/BarSpeak/src/main/res/values/styles.xml -->
     <style name="AppBaseTheme" parent="android:Theme.Light">
         <!--

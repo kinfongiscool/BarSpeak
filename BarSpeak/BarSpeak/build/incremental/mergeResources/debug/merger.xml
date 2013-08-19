@@ -53,14 +53,24 @@
                 </string>
                 <string name="dummy_button" >Dummy Button
                 </string>
-                <string name="fullscreen_content" >BarSpeak
-                </string>
+                <string name="fullscreen_content" ></string>
                 <string name="edit_text" >Enter text here
                 </string>
             </file>
             <file
                 path="C:\Development\DeltaProgram\BarSpeak\BarSpeak\BarSpeak\BarSpeak\src\main\res\values\styles.xml"
                 qualifiers="" >
+
+                <style
+                    name="AppBaseTheme"
+                    parent="android:Theme.Light" >
+
+                    <!--
+            Theme customizations available in newer API levels can go in
+            res/values-vXX/styles.xml, while customizations related to
+            backward-compatibility can go here.
+                    -->
+                </style>
 
                 <style name="ButtonBar" >
                     <item name="android:paddingLeft">
@@ -78,17 +88,6 @@
                     <item name="android:background">
 @android:drawable/bottom_bar
                     </item>
-                </style>
-
-                <style
-                    name="AppBaseTheme"
-                    parent="android:Theme.Light" >
-
-                    <!--
-            Theme customizations available in newer API levels can go in
-            res/values-vXX/styles.xml, while customizations related to
-            backward-compatibility can go here.
-                    -->
                 </style>
 
                 <style
